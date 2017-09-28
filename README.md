@@ -19,3 +19,14 @@ To run the automated search, use:
 ```sh verify_obfs.sh -a {path_to_apk} -s {file containing new line delimited list of strings}```
 
 The script will decompile and print out any strings it finds.
+
+
+# TODOs:
+* iOS decompilation
+* Proguard mapping support for verifying code 
+* Dexguard mapping support for verifying code
+* Ixguard?
+* Logs
+* More human readable output
+* Integrate with build server
+* Protect against false negatives by comparing unobfuscated app vs obfuscate app results
