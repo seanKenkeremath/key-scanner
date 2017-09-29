@@ -9,9 +9,10 @@ There are two scripts that can be run. ```decompile_android.sh``` will decompile
 ### Running decompile_android.sh
 To manually search through files, use:
 
-```sh decompile_android.sh {path_to_apk}```
+```sh decompile_android.sh -a {path_to_apk}```
 
 The output will be in ```./search```
+Optionally ```-v``` can be added for Verbose mode (prints all logs)
 
 ### Running verify_obfs.sh
 To run the automated search, use:
@@ -27,6 +28,5 @@ The script will decompile and print out any strings it finds.
 * Dexguard mapping support for verifying code
 * Ixguard?
 * Logs
-* More human readable output
 * Integrate with build server
 * Protect against false negatives by comparing unobfuscated app vs obfuscate app results
