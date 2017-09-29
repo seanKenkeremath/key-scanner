@@ -22,8 +22,9 @@ if [[ "$strings_file" = "" ||  "$apk_file" = "" ]]
 	exit 1
 fi
 
-sh ./decompile_android.sh "$apk_file"
+sh ./decompile_android.sh -a "$apk_file" -v
 
+echo "Searching for strings.."
 #Loop through all lines in strings.txt -- new line delimited. Last line always caught regardless of newline
  while read p || [[ -n $p ]]; do
    grep -or "$p" search

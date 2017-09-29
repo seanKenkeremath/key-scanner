@@ -1,6 +1,6 @@
 #!/bin/bash
 
-usage="Usage: $0 -a [apk_file] [options] \n\nOptions:\n\n-v Verbose mode: all logs are turned on\n\n"
+usage="Usage: $0 -a apk_file [-v]"
 
 # delete any previous decompiles
 rm -rf search
@@ -30,14 +30,14 @@ done
 if [ -z "$apk_file" ]
   then
     echo "Must specify file to decompile"
-    echo -e $usage
+    echo $usage
     exit 1
 fi
 
 if [ ! -f $apk_file ] 
 	then
     echo "Apk file $apk_file not found"
-    echo -e $usage
+    echo $usage
     exit 1
 fi
 
