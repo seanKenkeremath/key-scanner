@@ -2,7 +2,24 @@
 
 usage="Usage: $0 apk_file"
 
+# delete any previous decompiles
+rm -rf search
+
+if [ -z "$1" ]
+  then
+    echo "Must specify file to decompile"
+    echo $usage
+    exit 1
+fi
+
 apk_file="$1"
+
+if [ ! -f $1 ] 
+	then
+    echo "Apk file $1 not found"
+    echo $usage
+    exit 1
+fi
 
 echo "Decompiling source files to search/javafiles..."
 d2j/d2j-dex2jar.sh -o classes.jar "$apk_file" > /dev/null 2>&1
