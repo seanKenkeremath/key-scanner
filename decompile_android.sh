@@ -1,6 +1,6 @@
 #!/bin/bash
 
-usage="Usage: $0 -a apk_file [-v]"
+usage="Usage: $0 -p apk_file [-v]"
 
 # delete any previous decompiles
 rm -rf search
@@ -18,10 +18,10 @@ redirect_cmd() {
     fi
 }
 
-while getopts va: o
+while getopts vp: o
 do	case "$o" in
 	v)	VERBOSE=true;;
-	a)	apk_file="$OPTARG";;
+	p)	apk_file="$OPTARG";;
 	[?])	echo >&2 $usage
 		exit 1;;
 	esac

@@ -1,28 +1,33 @@
 #!/bin/bash
 
 strings_file=""
-apk_file=""
+app_file=""
+decompile_script=""
 
-usage="Usage: $0 [-s strings_file] [-a apk_file]"
+usage="Usage: $0 [-s strings_file] [-p app_file] [--a || --i]"
 
-while getopts s:a: o
+while getopts s:p:ia o
 do	case "$o" in
 	s)	strings_file="$OPTARG";;
-	a)	apk_file="$OPTARG";;
+	p)	app_file="$OPTARG";;
+	i)	decompile_script="decompile_ios.sh";;
+	a)	decompile_script="decompile_android.sh";;
 	[?])	echo >&2 $usage
 		exit 1;;
 	esac
 done
 
 #both input files are required
-if [[ "$strings_file" = "" ||  "$apk_file" = "" ]]
+if [[ "$strings_file" = "" ||  "$app_file" = "" || "$decompile_script" = "" ]]
 	then
 	echo "Missing Arguments"
 	echo >&2 $usage
 	exit 1
 fi
 
-sh ./decompile_android.sh -a "$apk_file" -v
+echo "Running $decompile_script"
+
+sh ./"$decompile_script" -p "$app_file" -v
 
 total_strings=0
 strings_found=0
