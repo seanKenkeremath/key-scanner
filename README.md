@@ -17,7 +17,7 @@ The output will be in ```./search```. Both resources and source files will be pu
 
 Optionally ```-v``` can be added for Verbose mode (prints all logs)
 
-### Running decompile_android.sh
+### Running decompile_ios.sh
 To manually search through files, use:
 
 ```sh decompile_ios.sh -p {path_to_ipa}```
