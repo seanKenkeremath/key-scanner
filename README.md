@@ -34,9 +34,7 @@ Specify either -a for Android or -i for iOS. All arguments are required.
 
 The script will decompile and print out any strings it finds.
 
-
 # TODOs:
-* Fix compatibility bug in verify_obfs.sh with process substitution (during grep)
 * Add labels to string input file to make outputs easier to read
 * Proguard mapping support for verifying code 
 * Dexguard mapping support for verifying code

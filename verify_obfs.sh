@@ -32,6 +32,7 @@ sh ./"$decompile_script" -p "$app_file" -v
 total_strings=0
 strings_found=0
 string_exists=false
+tmp_file="obfs_temp.tmp"
 found_strings_list=()
 not_found_strings_list=()
 
@@ -39,10 +40,11 @@ echo "Searching for strings.."
 #Loop through all lines in strings.txt -- new line delimited. Last line always caught regardless of newline
  while read p || [[ -n $p ]]; do
  	string_exists=false
+ 	grep -or "$p" search > $tmp_file
 	while read -r line; do
 		string_exists=true
-	    echo "$string_exists STRING FOUND: $line"
-	done < <(grep -or "$p" search)
+	    echo "STRING FOUND: $line"
+	done < $tmp_file
 	if $string_exists; then
 		found_strings_list+=($p)
 		strings_found=$((strings_found + 1))
@@ -62,4 +64,5 @@ echo "Searching for strings.."
  echo ""
  printf '%s\n' "${found_strings_list[@]}"
 
+rm "$tmp_file"
 rm -rf search
