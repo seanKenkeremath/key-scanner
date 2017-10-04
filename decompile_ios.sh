@@ -49,10 +49,18 @@ mkdir search
 #files are named dynamically, so we need to figure them out
 package_name="$(ls ./unzipped/Payload | tail -n1)"
 content_path="./unzipped/Payload/$package_name"
+frameworks_path="./unzipped/Payload/$package_name/Frameworks"
 bin_path="$content_path/$(./PlistBuddy -c "Print CFBundleExecutable" ./unzipped/Payload/$package_name/Info.plist)"
 
 echo "Dumping strings from binary $bin_path to search/strings.txt..."
 strings "$bin_path" > ./search/strings.txt
+
+mkdir search/frameworks
+echo "Dumping strings from frameworks in $frameworks_path"
+for f in $frameworks_path/*; do
+    echo "Dumping strings from $f to search/frameworks/"
+  strings $f > "./search/frameworks/$(basename "$f").txt"
+done
 
 echo "Dumping strings from plists in $content_path to search/plists..."
 for f in $content_path/*.plist; do
