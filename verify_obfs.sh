@@ -66,3 +66,9 @@ echo "Searching for strings.."
 
 rm "$tmp_file"
 rm -rf search
+
+if [ "$strings_found" -gt 0 ]; then
+    exit 1
+fi
+
+exit 0
