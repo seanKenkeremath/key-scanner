@@ -4,7 +4,7 @@ strings_file=""
 app_file=""
 decompile_script=""
 
-usage="Usage: $0 [-s strings_file] [-p app_file] [--a || --i]"
+usage="Usage: $0 [-s strings_file] [-p app_file] [-a || -i]"
 
 while getopts s:p:ia o
 do	case "$o" in
@@ -67,7 +67,9 @@ echo "Searching for strings.."
 rm "$tmp_file"
 rm -rf search
 
-if [ "$strings_found" -gt 0 ]; then
+if [[ $strings_found -eq $total_strings ]]; then
+    exit 2
+elif [[ $strings_found -gt 0 ]]; then
     exit 1
 fi
 
