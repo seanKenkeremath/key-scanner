@@ -4,6 +4,7 @@
   <tool-deployment>
     <layout>
       <executable-files>
+        <include name='verify_obfs_safe.sh'/>
         <include name='verify_obfs.sh'/>
         <include name='decompile_android.sh'/>
         <include name='decompile_ios.sh'/>
