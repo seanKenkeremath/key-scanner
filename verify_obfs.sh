@@ -5,6 +5,7 @@ app_file=""
 decompile_script=""
 
 usage="Usage: $0 [-s strings_file] [-p app_file] [-a || -i]"
+dir=$(dirname "$0")
 
 while getopts s:p:ia o
 do	case "$o" in
@@ -27,12 +28,12 @@ fi
 
 echo "Running $decompile_script"
 
-sh ./"$decompile_script" -p "$app_file" -v
+"$dir/$decompile_script" -p "$app_file" -v
 
 total_strings=0
 strings_found=0
 string_exists=false
-tmp_file="obfs_temp.tmp"
+tmp_file="$dir/obfs_temp.tmp"
 found_strings_list=()
 not_found_strings_list=()
 
@@ -40,7 +41,7 @@ echo "Searching for strings.."
 #Loop through all lines in strings.txt -- new line delimited. Last line always caught regardless of newline
  while read p || [[ -n $p ]]; do
  	string_exists=false
- 	grep -or "$p" search > $tmp_file
+ 	grep -or "$p" $dir/search > $tmp_file
 	while read -r line; do
 		string_exists=true
 	    echo "STRING FOUND: $line"
@@ -65,7 +66,7 @@ echo "Searching for strings.."
  printf '%s\n' "${found_strings_list[@]}"
 
 rm "$tmp_file"
-rm -rf search
+rm -rf $dir/search
 
 if [[ $strings_found -eq $total_strings ]]; then
     exit 2

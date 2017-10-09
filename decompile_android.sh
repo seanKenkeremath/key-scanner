@@ -1,9 +1,10 @@
 #!/bin/bash
 
 usage="Usage: $0 -p apk_file [-v]"
+dir=$(dirname "$0")
 
 # delete any previous decompiles
-rm -rf search
+rm -rf $dir/search
 
 apk_file=""
 
@@ -41,12 +42,12 @@ if [ ! -f $apk_file ]
     exit 1
 fi
 
-echo "Decompiling source files to search/javafiles..."
-redirect_cmd d2j/d2j-dex2jar.sh -o classes.jar "$apk_file"
-redirect_cmd jd/jd-cli -od search/javafiles classes.jar
-echo "Decompiling resources to search/res..."
-redirect_cmd java -jar apktool/apktool_2.3.0.jar d -o search/res -s "$apk_file"
+echo "Decompiling source files to $dir/search/javafiles..."
+redirect_cmd $dir/d2j/d2j-dex2jar.sh -o $dir/classes.jar "$apk_file"
+redirect_cmd $dir/jd/jd-cli -od $dir/search/javafiles $dir/classes.jar
+echo "Decompiling resources to $dir/search/res..."
+redirect_cmd java -jar $dir/apktool/apktool_2.3.0.jar d -o $dir/search/res -s "$apk_file"
 
 echo "Cleaning up temporary files"
-rm search/res/*.dex
-rm classes.jar
+rm $dir/search/res/*.dex
+rm $dir/classes.jar

@@ -8,13 +8,14 @@
 #I implemented it this way just for convenience in passing args to other scripts
 #TODO: make order not matter
 usage="Usage: $0 [-s strings_file] [-p obfs_app_file] [-m unobfs_app_file] [-a || -i]"
+dir=$(dirname "$0")
 
 #Should find now strings in the obfuscated version
-./verify_obfs.sh $1 $2 $3 $4 $7
+$dir/verify_obfs.sh $1 $2 $3 $4 $7
 obfs_result=$?
 
 #Should find all strings in nonobfuscated
-./verify_obfs.sh $1 $2 -p $6 $7
+$dir/verify_obfs.sh $1 $2 -p $6 $7
 unobfs_result=$?
 
 if [[ $obfs_result -eq 0 && $unobfs_result -eq 2 ]]; then

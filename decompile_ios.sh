@@ -1,9 +1,10 @@
 #!/bin/bash
 
 usage="Usage: $0 -p ipa_file [-v]"
+dir=$(dirname "$0")
 
 # delete any previous decompiles
-rm -rf search
+rm -rf $dir/search
 
 ipa_file=""
 
@@ -42,31 +43,31 @@ if [ ! -f $ipa_file ]
 fi
 
 echo "Unzipping $ipa_file"
-redirect_cmd unzip $ipa_file -d unzipped
+redirect_cmd unzip $ipa_file -d $dir/unzipped
 
-mkdir search
+mkdir $dir/search
 
 #files are named dynamically, so we need to figure them out
-package_name="$(ls ./unzipped/Payload | tail -n1)"
-content_path="./unzipped/Payload/$package_name"
-frameworks_path="./unzipped/Payload/$package_name/Frameworks"
-bin_path="$content_path/$(./PlistBuddy -c "Print CFBundleExecutable" ./unzipped/Payload/$package_name/Info.plist)"
+package_name="$(ls $dir/unzipped/Payload | tail -n1)"
+content_path="$dir/unzipped/Payload/$package_name"
+frameworks_path="$dir/unzipped/Payload/$package_name/Frameworks"
+bin_path="$content_path/$($dir/PlistBuddy -c "Print CFBundleExecutable" $dir/unzipped/Payload/$package_name/Info.plist)"
 
-echo "Dumping strings from binary $bin_path to search/strings.txt..."
-strings "$bin_path" > ./search/strings.txt
+echo "Dumping strings from binary $bin_path to $dir/search/strings.txt..."
+strings "$bin_path" > $dir/search/strings.txt
 
 mkdir search/frameworks
 echo "Dumping strings from frameworks in $frameworks_path"
 for f in $frameworks_path/*; do
     echo "Dumping strings from $f to search/frameworks/"
-  strings $f > "./search/frameworks/$(basename "$f").txt"
+  strings $f > "$dir/search/frameworks/$(basename "$f").txt"
 done
 
-echo "Dumping strings from plists in $content_path to search/plists..."
+echo "Dumping strings from plists in $content_path to $dir/search/plists..."
 for f in $content_path/*.plist; do
     echo "Dumping $f"
-  ./PlistBuddy -c "Print" "$f" > "./search/$(basename "$f").txt"
+  $dir/PlistBuddy -c "Print" "$f" > "$dir/search/$(basename "$f").txt"
 done
 
 echo "Cleaning up temporary files"
-rm -rf unzipped
+rm -rf $dir/unzipped
