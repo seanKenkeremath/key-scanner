@@ -28,6 +28,7 @@ Optionally ```-v``` can be added for Verbose mode (prints all logs)
 To run the automated search, use:
 
 ```./verify_obfs.sh -s {file containing input strings} -p {path_to_app} [-a or -i]```
+
 Specify either -a for Android or -i for iOS. All arguments are required.
 
 The input string files should be a new line delimited list of regex strings. The script will directly take the string and use it with grep. Keep in mind special characters have meaning in regex and in grep so you may need to escape some things. Regex wildcards such as using .* are supported. The grep command used on each line in the file is ```grep -or {line of input}``` if you want to test locally.
@@ -44,7 +45,7 @@ Specify either -a for Android or -i for iOS. All arguments are required except -
 
 This script runs ```verify_obfs.sh``` on both the obfuscated and non-obfuscated versions of the app. Doing this provides extra security against false negatives. It will only return success (exit code 0) if ALL input strings were found in the unobfuscated version and NO input strings were found in the obfuscated version (it does this using exit codes from the other script). 
 
-For example, if one of our input strings was entered as ```t3$t_$tring``` when the real key is ```T3$t_$tring```, running the regular ```verify_obfs.sh``` will still return a success because it technically didn't find that string anywhere (because it was mistyped). However, if we run ```verify_obfs_safe.sh``` and provide both versions of the app, it will fail.
+For example, if one of our input strings was entered as ```t3st_String``` when the real key is ```T3st_sTring```, running the regular ```verify_obfs.sh``` will still return a success because it technically didn't find that string anywhere (because it was mistyped). However, if we run ```verify_obfs_safe.sh``` and provide both versions of the app, it will fail.
 
 # TODOs:
 * Order of arguments should not matter for false negative search
