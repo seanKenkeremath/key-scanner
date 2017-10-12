@@ -3,16 +3,18 @@
 strings_file=""
 app_file=""
 decompile_script=""
+verbose=""
 
 usage="Usage: $0 [-s strings_file] [-p app_file] [-a || -i]"
 dir=$(dirname "$0")
 
-while getopts s:p:ia o
+while getopts s:p:iav o
 do	case "$o" in
 	s)	strings_file="$OPTARG";;
 	p)	app_file="$OPTARG";;
 	i)	decompile_script="decompile_ios.sh";;
 	a)	decompile_script="decompile_android.sh";;
+	v) 	verbose="-v";;
 	[?])	echo >&2 $usage
 		exit 1;;
 	esac
@@ -28,7 +30,7 @@ fi
 
 echo "Running $decompile_script"
 
-"$dir/$decompile_script" -p "$app_file" -v
+"$dir/$decompile_script" -p "$app_file" "$verbose"
 
 total_strings=0
 strings_found=0
@@ -69,8 +71,10 @@ rm "$tmp_file"
 rm -rf $dir/search
 
 if [[ $strings_found -eq $total_strings ]]; then
+	echo >&2 "None of the given strings are obfuscated in $app_file. See build log for details"
     exit 2
 elif [[ $strings_found -gt 0 ]]; then
+	echo >&2 "Some of the given strings are obfuscated in $app_file. See build log for details"
     exit 1
 fi
 

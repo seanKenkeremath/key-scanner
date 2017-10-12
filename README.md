@@ -27,8 +27,10 @@ Optionally ```-v``` can be added for Verbose mode (prints all logs)
 ### Running verify_obfs.sh
 To run the automated search, use:
 
-```./verify_obfs.sh -s {file containing new line delimited list of strings} -p {path_to_app} [-a or -i]```
+```./verify_obfs.sh -s {file containing input strings} -p {path_to_app} [-a or -i]```
 Specify either -a for Android or -i for iOS. All arguments are required.
+
+The input string files should be a new line delimited list of regex strings. The script will directly take the string and use it with grep. Keep in mind special characters have meaning in regex and in grep so you may need to escape some things. Regex wildcards such as using .* are supported. The grep command used on each line in the file is ```grep -or {line of input}``` if you want to test locally.
 
 The script will decompile and print out any strings it finds.
 
@@ -37,8 +39,8 @@ The script will return an exit code of 1 if at least one string was found from i
 ### Running verify_obfs_safe.sh
 To run the search, use:
 
-```./verify_obfs_safe.sh -s {file containing new line delimited list of strings} -p {path_to_obfuscated_app} -m {path_to_unobfuscated_app}  [-a or -i]```
-Specify either -a for Android or -i for iOS. All arguments are required. **NOTE: ORDER OF THE ARGUMENTS MATTER**. I did it that way out of convenience, but I will fix it.
+```./verify_obfs_safe.sh -s {file containing new line delimited list of strings} -p {path_to_obfuscated_app} -m {path_to_unobfuscated_app}  [-a or -i] [-v]```
+Specify either -a for Android or -i for iOS. All arguments are required except -v. **NOTE: ORDER OF THE ARGUMENTS MATTER**. I did it that way out of convenience, but I will fix it.
 
 This script runs ```verify_obfs.sh``` on both the obfuscated and non-obfuscated versions of the app. Doing this provides extra security against false negatives. It will only return success (exit code 0) if ALL input strings were found in the unobfuscated version and NO input strings were found in the obfuscated version (it does this using exit codes from the other script). 
 
