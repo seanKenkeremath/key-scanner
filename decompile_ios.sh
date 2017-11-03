@@ -56,6 +56,9 @@ bin_path="$content_path/$($dir/PlistBuddy -c "Print CFBundleExecutable" $dir/unz
 echo "Dumping strings from binary $bin_path to $dir/search/strings.txt..."
 strings "$bin_path" > $dir/search/strings.txt
 
+echo "Dumping symbols from binary $bin_path to $dir/search/symbols.txt..."
+nm "$bin_path" > $dir/search/symbols.txt
+
 mkdir search/frameworks
 echo "Dumping strings from frameworks in $frameworks_path"
 for f in $frameworks_path/*; do
