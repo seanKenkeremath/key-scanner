@@ -47,8 +47,10 @@ redirect_cmd unzip $ipa_file -d $dir/unzipped
 
 mkdir $dir/search
 
-#files are named dynamically, so we need to figure them out
-package_name="$(ls $dir/unzipped/Payload | tail -n1)"
+#files are named dynamically, so we need to rename to it to something standard. This way we don't need to worry about whitespace, etc
+package_name="bundle"
+original_package_name="$(ls $dir/unzipped/Payload | tail -n1)"
+mv "$dir/unzipped/Payload/$original_package_name" "$dir/unzipped/Payload/$package_name"
 content_path="$dir/unzipped/Payload/$package_name"
 frameworks_path="$dir/unzipped/Payload/$package_name/Frameworks"
 bin_path="$content_path/$($dir/PlistBuddy -c "Print CFBundleExecutable" $dir/unzipped/Payload/$package_name/Info.plist)"
