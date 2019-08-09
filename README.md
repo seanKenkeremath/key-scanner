@@ -24,12 +24,23 @@ The output will be in ```./search```. Right now the script just parses all PList
 
 Optionally ```-v``` can be added for Verbose mode (prints all logs)
 
+### Finding strings in folder or xcarchive file
+To search through a folder that's already been decompiled or an xcarchive file, use:
+
+```./verify_obfs.sh -s {file containing input strings} -p {path to folder or xcarchive} -f```
+
+The input string files should be a new line delimited list of regex strings. The script will directly take the string and use it with grep. Keep in mind special characters have meaning in regex and in grep so you may need to escape some things. Regex wildcards such as using .* are supported. The grep command used on each line in the file is ```grep -or {line of input}``` if you want to test locally.
+
+The script will decompile and print out any strings it finds.
+
+The script will return an exit code of 1 if at least one string was found from input file, 2 if all strings were found, and 0 if no strings were found
+
 ### Running verify_obfs.sh
 To run the automated search, use:
 
-```./verify_obfs.sh -s {file containing input strings} -p {path_to_app} [-a or -i]```
+```./verify_obfs.sh -s {file containing input strings} -p {path_to_app} [-a, -i or -f]```
 
-Specify either -a for Android or -i for iOS. All arguments are required.
+Specify either -a for Android, -i for iOS, or -f for a folder. All arguments are required.
 
 The input string files should be a new line delimited list of regex strings. The script will directly take the string and use it with grep. Keep in mind special characters have meaning in regex and in grep so you may need to escape some things. Regex wildcards such as using .* are supported. The grep command used on each line in the file is ```grep -or {line of input}``` if you want to test locally.
 

@@ -5,15 +5,16 @@ app_file=""
 decompile_script=""
 verbose=""
 
-usage="Usage: $0 [-s strings_file] [-p app_file] [-a || -i]"
+usage="Usage: $0 [-s strings_file] [-p app_file or folder] [-a || -i || -f]"
 dir=$(dirname "$0")
 
-while getopts s:p:iav o
+while getopts s:p:iafv o
 do	case "$o" in
 	s)	strings_file="$OPTARG";;
 	p)	app_file="$OPTARG";;
 	i)	decompile_script="decompile_ios.sh";;
 	a)	decompile_script="decompile_android.sh";;
+	f)	decompile_script="none";;
 	v) 	verbose="-v";;
 	[?])	echo >&2 $usage
 		exit 1;;
@@ -28,9 +29,13 @@ if [[ "$strings_file" = "" ||  "$app_file" = "" || "$decompile_script" = "" ]]
 	exit 1
 fi
 
-echo "Running $decompile_script"
-
-"$dir/$decompile_script" -p "$app_file" "$verbose"
+if [[ "$decompile_script" != "none" ]]
+then
+	echo "Running $decompile_script"
+	"$dir/$decompile_script" -p "$app_file" "$verbose"
+else
+	cp -r "$app_file" "$dir/search"
+fi
 
 total_strings=0
 strings_found=0
@@ -43,7 +48,8 @@ echo "Searching for strings.."
 #Loop through all lines in strings.txt -- new line delimited. Last line always caught regardless of newline
  while read p || [[ -n $p ]]; do
  	string_exists=false
- 	grep -or "$p" $dir/search > $tmp_file
+ 	grep -or "$p" "$dir/search" > $tmp_file
+
 	while read -r line; do
 		string_exists=true
 	    echo "STRING FOUND: $line"
