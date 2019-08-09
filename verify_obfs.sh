@@ -34,7 +34,7 @@ then
 	echo "Running $decompile_script"
 	"$dir/$decompile_script" -p "$app_file" "$verbose"
 else
-	search=$app_file
+	cp -r "$app_file" "$dir/search"
 fi
 
 total_strings=0
@@ -48,12 +48,8 @@ echo "Searching for strings.."
 #Loop through all lines in strings.txt -- new line delimited. Last line always caught regardless of newline
  while read p || [[ -n $p ]]; do
  	string_exists=false
- 	if [[ "$decompile_script" != "none" ]]
- 	then
- 		grep -or "$p" $dir/search > $tmp_file
- 	else
- 		grep -or "$p" $dir/$app_file > $tmp_file
- 	fi
+ 	grep -or "$p" "$dir/search" > $tmp_file
+
 	while read -r line; do
 		string_exists=true
 	    echo "STRING FOUND: $line"
