@@ -38,9 +38,9 @@ The script will return an exit code of 1 if at least one string was found from i
 ### Running verify_obfs.sh
 To run the automated search, use:
 
-```./verify_obfs.sh -s {file containing input strings} -p {path_to_app} [-a or -i]```
+```./verify_obfs.sh -s {file containing input strings} -p {path_to_app} [-a, -i or -f]```
 
-Specify either -a for Android or -i for iOS. All arguments are required.
+Specify either -a for Android, -i for iOS, or -f for a folder. All arguments are required.
 
 The input string files should be a new line delimited list of regex strings. The script will directly take the string and use it with grep. Keep in mind special characters have meaning in regex and in grep so you may need to escape some things. Regex wildcards such as using .* are supported. The grep command used on each line in the file is ```grep -or {line of input}``` if you want to test locally.
 
