@@ -2,7 +2,7 @@
 A script and tools to scan an app for keys to test configuration or obfuscation
 
 # Running the scripts
-There are two types of scripts that can be run. ```decompile_android.sh``` or ```decompile_ios.sh``` will decompile the app into a folder called "search" that can be looked through manually. ```scan.sh``` and ```verify_obfs_safe.sh``` Will decompile the app (using ```decompile_android.sh``` and then search for every string specified in the input file argument you provide.
+There are two types of scripts that can be run. ```decompile_android.sh``` or ```decompile_ios.sh``` will decompile the app into a folder called "search" that can be looked through manually. ```scan.sh``` and ```verify_obfs_safe.sh``` will decompile the app (using ```decompile_android.sh``` or ```decompile_ios.sh``` and then search for every string specified in the input file argument you provide.
 
 NOTE: This script will most like only work on MacOS. Whatever machine is running this must also have access to the ```strings``` command (built into MacOS)
 
@@ -41,7 +41,7 @@ The input string files should be a new line delimited list of regex strings. The
 
 The script will decompile and print out any strings it finds.
 
-By default (if `-o` is not set), the script will return 0 if all strings are found and if any are missing.
+By default (if `-o` is not set), the script will return 0 if all strings are found and 1 if any are missing.
 
 ### Running verify_obfs_safe.sh
 To run the search, use:
