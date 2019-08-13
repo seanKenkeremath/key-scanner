@@ -1,8 +1,8 @@
-# obfuscation-verification-script
-A script and tools to verify that an app has been obfuscated
+# KeyScanner
+A script and tools to scan an app for keys to test configuration or obfuscation
 
 # Running the scripts
-There are two types of scripts that can be run. ```decompile_android.sh``` or ```decompile_ios.sh``` will decompile the app into a folder called "search" that can be looked through manually. ```verify_obfs.sh``` and ```verify_obfs_safe.sh``` Will decompile the app (using ```decompile_android.sh``` and then search for every string specified in the input file argument you provide.
+There are two types of scripts that can be run. ```decompile_android.sh``` or ```decompile_ios.sh``` will decompile the app into a folder called "search" that can be looked through manually. ```scan.sh``` and ```verify_obfs_safe.sh``` Will decompile the app (using ```decompile_android.sh``` and then search for every string specified in the input file argument you provide.
 
 NOTE: This script will most like only work on MacOS. Whatever machine is running this must also have access to the ```strings``` command (built into MacOS)
 
@@ -24,29 +24,24 @@ The output will be in ```./search```. Right now the script just parses all PList
 
 Optionally ```-v``` can be added for Verbose mode (prints all logs)
 
-### Finding strings in folder or xcarchive file
-To search through a folder that's already been decompiled or an xcarchive file, use:
-
-```./verify_obfs.sh -s {file containing input strings} -p {path to folder or xcarchive} -f```
-
-The input string files should be a new line delimited list of regex strings. The script will directly take the string and use it with grep. Keep in mind special characters have meaning in regex and in grep so you may need to escape some things. Regex wildcards such as using .* are supported. The grep command used on each line in the file is ```grep -or {line of input}``` if you want to test locally.
-
-The script will decompile and print out any strings it finds.
-
-The script will return an exit code of 1 if at least one string was found from input file, 2 if all strings were found, and 0 if no strings were found
-
-### Running verify_obfs.sh
+### Running scan.sh
 To run the automated search, use:
 
-```./verify_obfs.sh -s {file containing input strings} -p {path_to_app} [-a, -i or -f]```
+```./scan.sh -s {file containing input strings} -p {path_to_app} [-a, -i or -f] [-o] [-v]```
 
-Specify either -a for Android, -i for iOS, or -f for a folder. All arguments are required.
+Specify either -a for Android, -i for iOS, or -f for a folder or xarchive file. 
+
+The `-o` flag sets the script to obfuscation check mode. When in this mode, the script will return an exit code of 1 if at least one string was found from input file, 2 if all strings were found, and 0 if no strings were found. In other words, use `-o` if the goal is for the strings to NOT be found.
+
+The `-v` flag sets verbose logging.
+
+All arguments except `-o` and `-v` are required.
 
 The input string files should be a new line delimited list of regex strings. The script will directly take the string and use it with grep. Keep in mind special characters have meaning in regex and in grep so you may need to escape some things. Regex wildcards such as using .* are supported. The grep command used on each line in the file is ```grep -or {line of input}``` if you want to test locally.
 
 The script will decompile and print out any strings it finds.
 
-The script will return an exit code of 1 if at least one string was found from input file, 2 if all strings were found, and 0 if no strings were found
+By default (if `-o` is not set), the script will return 0 if all strings are found and if any are missing.
 
 ### Running verify_obfs_safe.sh
 To run the search, use:
@@ -54,9 +49,9 @@ To run the search, use:
 ```./verify_obfs_safe.sh -s {file containing new line delimited list of strings} -p {path_to_obfuscated_app} -m {path_to_unobfuscated_app}  [-a or -i] [-v]```
 Specify either -a for Android or -i for iOS. All arguments are required except -v. **NOTE: ORDER OF THE ARGUMENTS MATTER**. I did it that way out of convenience, but I will fix it.
 
-This script runs ```verify_obfs.sh``` on both the obfuscated and non-obfuscated versions of the app. Doing this provides extra security against false negatives. It will only return success (exit code 0) if ALL input strings were found in the unobfuscated version and NO input strings were found in the obfuscated version (it does this using exit codes from the other script). 
+This script runs ```scan.sh``` on both the obfuscated and non-obfuscated versions of the app. Doing this provides extra security against false negatives. It will only return success (exit code 0) if ALL input strings were found in the unobfuscated version and NO input strings were found in the obfuscated version (it does this using exit codes from the other script). 
 
-For example, if one of our input strings was entered as ```t3st_String``` when the real key is ```T3st_sTring```, running the regular ```verify_obfs.sh``` will still return a success because it technically didn't find that string anywhere (because it was mistyped). However, if we run ```verify_obfs_safe.sh``` and provide both versions of the app, it will fail.
+For example, if one of our input strings was entered as ```t3st_String``` when the real key is ```T3st_sTring```, running the regular ```scan.sh``` will still return a success because it technically didn't find that string anywhere (because it was mistyped). However, if we run ```verify_obfs_safe.sh``` and provide both versions of the app, it will fail.
 
 # TODOs:
 * Order of arguments should not matter for false negative search
