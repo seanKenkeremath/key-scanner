@@ -16,7 +16,7 @@ do	case "$o" in
 	i)	decompile_script="decompile_ios.sh";;
 	a)	decompile_script="decompile_android.sh";;
 	f)	decompile_script="none";;
-	o)  isobf=true;;
+	o)	isobf=true;;
 	v) 	verbose="-v";;
 	[?])	echo >&2 $usage
 		exit 1;;
@@ -92,22 +92,22 @@ if [[ $strings_found -eq $total_strings ]]; then
 		echo >&2 "None of the given strings are obfuscated in $app_file. See build log for details"
 		exit 2
 	else
-		echo >&2 "All strings found!"
+		echo >&2 "All strings found in $app_file!"
 		exit 0
 	fi
 elif [[ $strings_found -gt 0 ]]; then
 	if [[ $isobf ]]; then
 		echo >&2 "Only some of the given strings are obfuscated in $app_file. See build log for details"
 	else
-		echo >&2 "Some strings were not found. See build log for details"
+		echo >&2 "Some strings were not found in $app_file. See build log for details"
 	fi
 	exit 1
 else
 	if [[ $isobf ]]; then 
-		# All strings are obfuscated
+		echo >& "No strings found in $app_file! See build log for details"
 		exit 0
 	else
-		"No strings found! See build log for details"
+		echo >&2 "No strings found in $app_file! See build log for details"
 		exit 1
 	fi
 fi
