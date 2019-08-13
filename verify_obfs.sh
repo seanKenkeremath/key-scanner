@@ -46,7 +46,11 @@ not_found_strings_list=()
 
 echo "Searching for strings.."
 #Loop through all lines in strings.txt -- new line delimited. Last line always caught regardless of newline
- while read p || [[ -n $p ]]; do
+ while read p || [[ -n "$p" ]]; do
+ 	p=$(echo $p | xargs) #Strip whitespace
+ 	if [[ -z "$p" ]]; then
+ 		continue #Skip empty lines
+	fi
  	string_exists=false
  	grep -or "$p" "$dir/search" > $tmp_file
 
@@ -55,13 +59,18 @@ echo "Searching for strings.."
 	    echo "STRING FOUND: $line"
 	done < $tmp_file
 	if $string_exists; then
-		found_strings_list+=($p)
+		found_strings_list+=("$p")
 		strings_found=$((strings_found + 1))
 	else
-		not_found_strings_list+=($p)
+		not_found_strings_list+=("$p")
 	fi
 	total_strings=$((total_strings + 1))
  done < $strings_file
+
+ if [[ $total_strings -eq 0 ]]; then
+ 	echo >&2 "Empty input strings file"
+ 	exit 1
+ fi
 
  echo "$strings_found out of $total_strings strings found"
  echo ""
