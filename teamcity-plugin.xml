@@ -4,7 +4,7 @@
     <layout>
       <executable-files>
         <include name='verify_obfs_safe.sh'/>
-        <include name='verify_obfs.sh'/>
+        <include name='scan.sh'/>
         <include name='decompile_android.sh'/>
         <include name='decompile_ios.sh'/>
         <include name='d2j/d2j-invoke.sh'/>
