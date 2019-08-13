@@ -18,11 +18,11 @@ do	case "$o" in
 done
 
 #Should find all strings in nonobfuscated
-$dir/verify_obfs.sh $1 $2 -p $6 $7 "-o $verbose"
+$dir/scan.sh $1 $2 -p $6 $7 "-o $verbose"
 unobfs_result=$?
 
 #Should find no strings in the obfuscated version
-$dir/verify_obfs.sh $1 $2 $3 $4 $7 "-o $verbose"
+$dir/scan.sh $1 $2 $3 $4 $7 "-o $verbose"
 obfs_result=$?
 
 if [[ $obfs_result -eq 0 && $unobfs_result -eq 2 ]]; then
