@@ -6,18 +6,18 @@ decompile_script=""
 verbose=""
 isobfs=false
 
-usage="Usage: $0 [-s strings_file] [-p app_file or folder] [-a || -i || -f] [-o to check obfuscation]"
+usage="Usage: $0 [-s strings_file] [-p app_file or folder] [-a || -i || -f] [-o to check obfuscation] [-v verbose]"
 dir=$(dirname "$0")
 
-while getopts s:p:iafvo o
+while getopts s:p:iafov o
 do	case "$o" in
 	s)	strings_file="$OPTARG";;
 	p)	app_file="$OPTARG";;
 	i)	decompile_script="decompile_ios.sh";;
 	a)	decompile_script="decompile_android.sh";;
 	f)	decompile_script="none";;
-	v) 	verbose="-v";;
 	o)  isobf=true;;
+	v) 	verbose="-v";;
 	[?])	echo >&2 $usage
 		exit 1;;
 	esac
