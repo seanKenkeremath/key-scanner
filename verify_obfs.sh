@@ -9,7 +9,7 @@ isobfs=false
 usage="Usage: $0 [-s strings_file] [-p app_file or folder] [-a || -i || -f] [-o to check obfuscation]"
 dir=$(dirname "$0")
 
-while getopts s:p:iafv o
+while getopts s:p:iafvo o
 do	case "$o" in
 	s)	strings_file="$OPTARG";;
 	p)	app_file="$OPTARG";;
