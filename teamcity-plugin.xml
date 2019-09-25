@@ -7,21 +7,21 @@
         <include name='scan.sh'/>
         <include name='decompile_android.sh'/>
         <include name='decompile_ios.sh'/>
-        <include name='d2j/d2j-invoke.sh'/>
-        <include name='d2j/d2j-apk-sign.sh'/>
-        <include name='d2j/d2j-baksmali.sh'/>
-        <include name='d2j/d2j-class-version-switch.sh'/>
-        <include name='d2j/d2j-decrypt-string.sh'/>
-        <include name='d2j/d2j-recompute-checksum.sh'/>
-        <include name='d2j/d2j-dex-weaver.sh'/>
-        <include name='d2j/d2j-dex2jar.sh'/>
-        <include name='d2j/d2j-dex2smali.sh'/>
-        <include name='d2j/d2j-jar-weaver.sh'/>
-        <include name='d2j/d2j-jar2dex.sh'/>
-        <include name='d2j/d2j-jar2jasmin.sh'/>
-        <include name='d2j/d2j-jasmin2jar.sh'/>
-        <include name='d2j/d2j-smali.sh'/>
-        <include name='jd/jd-cli'/>
+        <include name='./d2j/d2j_invoke.sh'/>
+        <include name='./d2j/d2j-apk-sign.sh'/>
+        <include name='./d2j/d2j-baksmali.sh'/>
+        <include name='./d2j/d2j-class-version-switch.sh'/>
+        <include name='./d2j/d2j-decrypt-string.sh'/>
+        <include name='./d2j/d2j-recompute-checksum.sh'/>
+        <include name='./d2j/d2j-dex-weaver.sh'/>
+        <include name='./d2j/d2j-dex2jar.sh'/>
+        <include name='./d2j/d2j-dex2smali.sh'/>
+        <include name='./d2j/d2j-jar-weaver.sh'/>
+        <include name='./d2j/d2j-jar2dex.sh'/>
+        <include name='./d2j/d2j-jar2jasmin.sh'/>
+        <include name='./d2j/d2j-jasmin2jar.sh'/>
+        <include name='./d2j/d2j-smali.sh'/>
+        <include name='./jd/jd-cli'/>
         <include name='PlistBuddy'/>
       </executable-files>
     </layout>
